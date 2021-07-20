@@ -18,27 +18,20 @@ class TestTemplate(unittest.TestCase):
         chrome_options.add_argument('--disable-dev-shm-usage')
         chrome_options.add_argument("--window-size=1920,1080")
         self.driver = webdriver.Chrome(options=chrome_options)
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(2)
 
     def tearDown(self):
         """Stop web driver"""
         self.driver.quit()
-
+    
     def test_case_1(self):
-        """Find and click top-left logo button"""
+        """Find fuel"""
         try:
-            self.driver.get('https://www.oursky.com/')
-            el = self.driver.find_element_by_class_name('header__logo')
+            self.driver.get('https://am4.pagespeedster.com/am4/?gameType=app&uid=mkhairulhabibm@gmail.com&uid_token=2286f7d3391388506a46f31110fccfbe&mail=mkhairulhabibm@gmail.com&mail_token=2286f7d3391388506a46f31110fccfbe&FCM=ffYKMxxJ1Ts:APA91bGM60Vm20sJIZ9ix0qM_IY-cBkwb6753lBSXbrGiDeMpu6w8JJCHne5um82gBUgfoIXthy1JJqMblGYHp2Jw3jl2GkaA6AY9jd1tdfCJ1IZua6ukZzsJF9CkEnhfhYpVr2N2GE0#')
+            el = self.driver.find_element_by_xpath("//*[@title='Fuel & co2']")
             el.click()
-        except NoSuchElementException as ex:
-            self.fail(ex.msg)
-
-    def test_case_2(self):
-        """Find and click top-right Start your project button"""
-        try:
-            self.driver.get('https://www.oursky.com/')
-            el = self.driver.find_element_by_class_name("header__cta")
-            el.click()
+            el2 = self.driver.find_element_by_xpath("//span[@id='sumCost']")
+            print("current fuel: " + el2.text)
         except NoSuchElementException as ex:
             self.fail(ex.msg)
 

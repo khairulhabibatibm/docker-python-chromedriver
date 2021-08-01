@@ -31,6 +31,7 @@ def test_case_1(self):
         self.fail(ex.msg)
 
 if __name__ == '__main__':
+    print("start capture")
     chrome_options = webdriver.ChromeOptions()
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--no-sandbox')

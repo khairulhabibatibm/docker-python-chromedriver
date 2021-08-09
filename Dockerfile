@@ -15,4 +15,5 @@ RUN pip install --upgrade pip
 RUN pip install selenium
 
 COPY ./test_script.py /usr/src/test_script.py
+COPY ./berangkat.py /usr/src/berangkat.py
 

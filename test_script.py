@@ -19,19 +19,12 @@ def click_xpath (str):
     time.sleep (0.2)
     browser.execute_script("arguments[0].click();", vo_button)
 
-def test_case_1(self):
-    """Find fuel"""
-    try:
-        self.driver.get(os.environ.get("AM4_URL"))
-        el = self.driver.find_element_by_xpath("//*[@title='Fuel & co2']")
-        el.click()
-        el2 = self.driver.find_element_by_xpath("//span[@id='sumCost']")
-        print("current fuel: " + el2.text)
-    except NoSuchElementException as ex:
-        self.fail(ex.msg)
-
 if __name__ == '__main__':
     print("start capture")
+    curr_time = time.localtime()
+    curr_clock = time.strftime("%H:%M:%S", curr_time)
+    
+    print(curr_clock)
     chrome_options = webdriver.ChromeOptions()
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--no-sandbox')

@@ -62,9 +62,12 @@ def full_tank():
     v_purchase = browser.find_element_by_xpath ('//*[@id="amountInput"]')
     v_purchase.clear()
 
+    int_capacity = int(v_capacity.text.replace(',',''))
+
     # only fill tank if value below 6000000
-    if(int(v_capacity.text) > 64000000):
-        v_purchase.send_keys (str(6000000))
+    if(int_capacity > 64000000):
+        print('low capacity')
+        v_purchase.send_keys ('6000000')
         time.sleep(0.5)
 
 
@@ -74,11 +77,18 @@ def full_tank():
     # full tank co:
     click_xpath('//*[@id="popBtn2"]')
     time.sleep(0.5)
-    v_capacity = browser.find_element_by_xpath ('//*[@id="remCapacity"]')
+    v_capacity = browser.find_element_by_xpath ('//*[@id="holding"]')
     v_purchase = browser.find_element_by_xpath ('//*[@id="amountInput"]')
     v_purchase.clear()
 
-    v_purchase.send_keys (v_capacity.text)
+    print('co holding ' + v_capacity.text)
+    # only fill if co negative
+    if(v_capacity.text.startswith("-")):
+        int_holding = int(v_capacity.text.replace(",","").replace("-",""))
+        max_capacity = int_holding + 13000000
+        v_purchase.send_keys (str(max_capacity))
+    
+    print('after filling co')
     time.sleep(0.5)
 
     click_xpath('//*[@id="co2Main"]/div/div[8]/div/button[2]')
@@ -90,26 +100,37 @@ def full_tank():
 
 def fill_tanks_and_depart_all():
     while True:
+        print('inside fill_tanks_and_depart_all')
+        curr_time = time.localtime()
+        curr_clock = time.strftime("%H:%M:%S", curr_time)
+        print(curr_clock)
         v_found = 0
-        v_timeout = time.time() + 5
+        v_timeout = time.time() + 10
         while True:
             try:
                 time.sleep(0.2)
                 v_departall = browser.find_element_by_xpath ('//*[@id="listDepartAll"]/div/button[2]')
+                print('inside second while')
                 if v_departall.is_displayed():
+                    print('depart is displayed')
                     v_found = 1
                     break
                     
             except:
+                print('pass from second while')
                 pass
 
             if time.time() > v_timeout:
+                print('time out')
                 break
         
         if v_found == 1:
+            print('found == 1 on first while')
             full_tank()
+            print('after full tank()')
             time.sleep(2)
             depart_all()
+            print('after depart all')
             time.sleep(2)
         else:
             break
